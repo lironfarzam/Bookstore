@@ -1,0 +1,32 @@
+body {
+    background-color: #fff;
+}
+
+#bookBanner {
+    background: url(../images/banner.png) repeat;
+    color: white;
+    text-align: center;
+}
+
+#successImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+}
+
+#errorImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+

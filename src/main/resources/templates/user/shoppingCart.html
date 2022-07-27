@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragment/header.html :: headShoppingCartCss"></head>
+
+<body>
+<div th:insert="fragment/header.html :: banner"></div>
+<div th:insert="fragment/header.html :: navbar"></div>
+
+<div class="container-fluid">
+
+    <div th:switch="${shoppingCart.getTotalQuantity()}" class="col">
+        <div th:case="0">
+            <div class="row m-2">
+                <div class="col-md-3"></div>
+                <div class="alert alert-danger mt-3 text-center col-md-6" role="alert">
+                    <h5 class="alert-heading">The cart is empty </h5>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+        <div th:case="*">
+            <!--put error message if error not empty-->
+            <div th:if="${error.length() != 0}  ">
+                <div class="alert alert-danger m-3 text-center" role="alert">
+                    <h5 th:text="${error}" class="alert-heading" style="white-space: pre-line"/>
+                </div>
+            </div>
+            <main>
+                <div class="basket">
+                    <div class="basket-labels">
+                        <ul>
+                            <li class="item item-heading">Item</li>
+                            <li class="price">Price</li>
+                            <li class="quantity">Quantity</li>
+                            <li class="subtotal">Subtotal</li>
+                        </ul>
+                    </div>
+
+                    <div th:each="book : ${shoppingCart.getCart()}" class="basket-product">
+                        <div class="item">
+                            <div class="product-image">
+                                <img th:src="${book.key.getImage()}" alt="..." class="product-frame">
+                            </div>
+
+                            <div class="product-details">
+                                <h5 th:text="${book.key.getBookName()}"/>
+                                <div th:if="${book.key.getDiscount() != 0.0}">
+                                    <p>
+                                        Discount: <span th:text="${book.key.getDiscount()}"/>%
+                                    </p>
+                                    <p class="text-muted">
+                                        Saved: <span th:text="${book.key.getSavePrice()}"/>₪
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:text="${book.key.getTotalPrice()}" class="price"/>
+                        <div th:text="${book.value}" class="quantity text-center"/>
+                        <div th:text="${book.key.getTotalPrice()} * ${book.value}" class="subtotal"/>
+
+                        <div class="remove">
+                            <form th:action="@{/delete-from-cart}"
+                                  th:object="${book.key}"
+                                  method="post">
+                                <input th:value="${book.key.getId()}" type="hidden" name="id">
+                                <button type="submit">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <aside>
+                    <div class="summary">
+                        <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
+                        <div class="summary-subtotal">
+                            <div class="subtotal-title">Subtotal</div>
+                            <div th:text="${shoppingCart.getTotalPrice()}" class="subtotal-value final-value"
+                                 id="basket-subtotal"/>
+                        </div>
+                        <div class="summary-delivery">
+                            <select name="delivery-collection" class="summary-delivery-selection">
+                                <option value="0" selected="selected">Select Collection or Delivery</option>
+                                <option value="collection">DHL</option>
+                                <option value="first-class">Israel Post</option>
+                                <option value="second-class">UPS</option>
+                                <option value="signed-for">Cheetah Group</option>
+                            </select>
+                        </div>
+
+                        <div class="summary-total">
+                            <div class="total-title">Total</div>
+                            <div th:text="${shoppingCart.getTotalPrice()}" class="total-value final-value"
+                                 id="basket-total"></div>
+                        </div>
+                        <div class="summary-checkout">
+                            <button class="checkout-cta btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal">Clear cart
+                            </button>
+                            <form th:action="@{/check-out}" action="#" method="post">
+                                <button class="checkout-cta mt-1" type="submit">Check out</button>
+                            </form>
+                        </div>
+                    </div>
+                </aside>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-danger">Wait</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="errorModalText">Are you sure you want to delete all products?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger " data-bs-dismiss="modal">No</button>
+
+                <a type="button" class="btn btn-sm btn-success" href="javascript: document.logoutForm.submit()"
+                   role="menuitem"> Yes</a>
+
+                <form th:action="@{/clear-cart}" th:hidden="true" name="logoutForm" method="post">
+                    <input hidden type="submit" value="clear-cart"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+

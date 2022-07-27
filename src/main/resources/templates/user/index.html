@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragment/header.html :: headMainCss"></head>
+
+<body>
+
+<div th:insert="fragment/header.html :: banner"></div>
+<div th:insert="fragment/header.html :: navbar"></div>
+
+<div class="container-fluid">
+    <!--  books list -->
+    <div class="row mt-2">
+        <div th:switch="${books.size()}" class="col">
+            <div th:case="0" class="row">
+                <div class="col-3"></div>
+                <div class="alert alert-danger mt-3 text-center col-6" role="alert">
+                    <h5 th:text="${msgIfEmpty}" class="alert-heading" style="white-space: pre-line"/>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div th:case="*">
+                <h4 class="alert alert-dark fw-bold mt-2">
+                    <b th:text="${header}"/>
+                </h4>
+
+                <div class="card-group">
+                    <div th:each="book : ${books}" class="mb-2">
+                        <div class="card h-100 m-1">
+                            <div id="card-image-div">
+                                <img th:src="${book.getImage()}" class="card-img-top p-1" id="check" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <b><p th:text="${book.getBookName()}" class="card-title"> name </p></b>
+                                <p class="card-text">
+
+                                <div th:if="${book.getDiscount() != 0.0}">
+                                    <p>
+                                        Price: <b class="text-danger"><span th:text="${book.getTotalPrice()}"/> $</b>
+                                        <strike>
+                                            <span th:text="${book.getPrice()}"/> $
+                                        </strike>
+
+                                    </p>
+                                    <p class="text-muted">
+                                        saved: <span th:text="${book.getSavePrice()}"/>$
+                                    </p>
+                                </div>
+
+                                <div th:if="${book.getDiscount() == 0.0}">
+                                    <p>
+                                        <b><span th:text="${book.getPrice()}"/>$</b>
+                                    </p>
+                                </div>
+
+
+                            </div>
+                            <div class="text-center card-footer mt-auto">
+                                <form th:action="@{/add-to-cart}" method="post">
+                                    <input th:value="${book.id}" type="hidden" name="id"/>
+                                    <button class="btn btn-warning" type="submit">Add to cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">About</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Liron Farzam</br>
+                    LironFa@edu.hac.ac.il</br>
+                </p>
+                <p>Doron Azulay</br>
+                    DoronAz@edu.hac.ac.il
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

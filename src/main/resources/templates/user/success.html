@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:insert="fragment/header.html :: headAdminCss"></head>
+
+<body>
+
+<div th:insert="fragment/header.html :: banner"></div>
+<div th:insert="fragment/header.html :: navbar"></div>
+
+<div class="container-fluid">
+
+    <div class="row m-5">
+        <div class="col-md-3 col-lg-4"></div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card ">
+                <img src="../images/check-circle.gif" id="successImage" class="card-img-top" alt="...">
+                <div class="card-body text-center">
+                    <h3 class="text-success">Congratulations, the purchase was made successfully!</h3>
+                    <h5>The amount of the purchase made was: <b><span th:text="${totalPrice}"/>₪</b></h5>
+                    <p>Delivery will reach you within 10 business days</p>
+                    <div class="text-center">
+                        <a type="button" href="/" id="registerFirstPart" class="btn btn-success">Home Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-4"></div>
+    </div>
+</div>
+
+</body>
+</html>

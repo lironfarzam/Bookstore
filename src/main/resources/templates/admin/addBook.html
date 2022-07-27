@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragment/header.html :: headAdminCss"></head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-3 col-lg-3"></div>
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card mt-5 mb-5">
+                <img src="../images/editMode.gif" class="card-img-top" style="height:18rem" alt="...">
+                <div class="card-body">
+                    <h3 class="text-center"><b>Add new book</b></h3>
+
+                    <form th:action="@{/admin/add-book}" th:object="${book}" action="#" method="post">
+                        <div class="form-group">
+                            <label for="bookName" class="col-form-label">Name</label>
+                            <input th:field="*{bookName}" type="text" class="form-control" id="bookName"
+                                   placeholder="Name">
+                            <span th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}"
+                                  class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="image" class="col-form-label">Image</label>
+                            <input th:field="*{image}" type="text" class="form-control" id="image" placeholder="image">
+                            <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity" class="col-form-label">Quantity</label>
+                            <input th:field="*{quantity}" type="text" class="form-control" id="quantity"
+                                   placeholder="quantity">
+                            <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price" class="col-form-label">Price</label>
+                            <input type="text" th:field="*{price}" class="form-control" id="price" placeholder="price">
+                            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="discount" class="col-form-label">Discount</label>
+                            <input type="text" th:field="*{discount}" class="form-control" id="discount"
+                                   placeholder="discount">
+                            <span th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
+                                  class="text-danger"></span>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3 ">
+                                <!-- button for /admin-->
+                                <a href="/admin" class="btn btn-secondary">Back</a>
+                            </div>
+                            <div class="col-6"></div>
+                            <div class="col-3  text-center d-grid gap-2 d-flex justify-content-end">
+                                <input type="submit" class="btn btn-primary justify-content-end" value="Add Book">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3"></div>
+    </div>
+</div>
+</body>
+</html>
